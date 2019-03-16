@@ -18,6 +18,15 @@ class Auth extends CI_Controller {
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 
+		if ($username == null) {
+			throw new Exception("username cannot be empty", 2);
+			
+		}
+		if ($password == null) {
+			throw new Exception("password cannot be empty", 2);
+			
+		}
+
 		$this->load->model('auth_model');
 
 		if ($this->auth_model->can_login($username, $password)) {
