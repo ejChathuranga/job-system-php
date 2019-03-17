@@ -6,6 +6,10 @@ class User_model extends CI_Model{
 		$this->db->where('maintence_manager_id', $userId);
 		$jobList = $this->db->get('job');
 
-		return $jobList->result();
+		if ($jobList->num_rows() > 0) {
+			return $jobList->result();
+		}else{
+			return "no data to show";
+		}
 	}
 }
