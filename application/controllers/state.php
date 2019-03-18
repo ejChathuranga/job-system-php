@@ -3,6 +3,189 @@
 
 class State extends CI_Controller{
 
+	function reopen(){
+
+		// $userInput = $this->input->raw_input_stream;
+		$array =  json_decode(file_get_contents('php://input'),true);
+
+		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+
+		$jobId =  $array['job_id'];
+
+
+		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+
+		$this->load->model('job_model');
+
+		$isAssigned = $this->job_model->reopen($jobId);
+
+		if ($isAssigned) {
+			$response = array(
+					'code'=> 1,
+					'message' => "job  re-open success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}else{
+			$response = array(
+					'code'=> 2,
+					'message' => "job re-open not-success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}
+
+	}
+
+
+	function close(){
+
+		// $userInput = $this->input->raw_input_stream;
+		$array =  json_decode(file_get_contents('php://input'),true);
+
+		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+
+		$jobId =  $array['job_id'];
+
+
+		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+
+		$this->load->model('job_model');
+
+		$isAssigned = $this->job_model->close($jobId);
+
+		if ($isAssigned) {
+			$response = array(
+					'code'=> 1,
+					'message' => "job  close success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}else{
+			$response = array(
+					'code'=> 2,
+					'message' => "job close not-success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}
+
+	}
+
+	function finish(){
+
+		// $userInput = $this->input->raw_input_stream;
+		$array =  json_decode(file_get_contents('php://input'),true);
+
+		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+
+		$jobId =  $array['job_id'];
+
+
+		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+
+		$this->load->model('job_model');
+
+		$isAssigned = $this->job_model->finish($jobId);
+
+		if ($isAssigned) {
+			$response = array(
+					'code'=> 1,
+					'message' => "job  finish success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}else{
+			$response = array(
+					'code'=> 2,
+					'message' => "job finish not-success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}
+
+	}
+
+	function matok(){
+
+		// $userInput = $this->input->raw_input_stream;
+		$array =  json_decode(file_get_contents('php://input'),true);
+
+		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+
+		$jobId =  $array['job_id'];
+
+
+		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+
+		$this->load->model('job_model');
+
+		$isAssigned = $this->job_model->onProgress($jobId);
+
+		if ($isAssigned) {
+			$response = array(
+					'code'=> 1,
+					'message' => "job material issued success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}else{
+			$response = array(
+					'code'=> 2,
+					'message' => "job material issued not-success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}
+
+	}
+
+
+	function matreq(){
+
+		// $userInput = $this->input->raw_input_stream;
+		$array =  json_decode(file_get_contents('php://input'),true);
+
+		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+
+		$jobId =  $array['job_id'];
+
+
+		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+
+		$this->load->model('job_model');
+
+		$isAssigned = $this->job_model->materialRequisition($jobId);
+
+		if ($isAssigned) {
+			$response = array(
+					'code'=> 1,
+					'message' => "job material requisition success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}else{
+			$response = array(
+					'code'=> 2,
+					'message' => "job material requisition not-success",
+					'data' => ""
+					);
+
+			echo json_encode($response);
+		}
+
+	}
+
+
 	function accept(){
 
 		// $userInput = $this->input->raw_input_stream;
@@ -24,7 +207,7 @@ class State extends CI_Controller{
 		if ($isAssigned) {
 			$response = array(
 					'code'=> 1,
-					'message' => "user accept success",
+					'message' => "job accept success",
 					'data' => ""
 					);
 
@@ -32,7 +215,7 @@ class State extends CI_Controller{
 		}else{
 			$response = array(
 					'code'=> 2,
-					'message' => "user accept not-success",
+					'message' => "job accept not-success",
 					'data' => ""
 					);
 
@@ -61,7 +244,7 @@ class State extends CI_Controller{
 		if ($isAssigned) {
 			$response = array(
 					'code'=> 1,
-					'message' => "user assign success",
+					'message' => "job assign success",
 					'data' => ""
 					);
 
@@ -69,7 +252,7 @@ class State extends CI_Controller{
 		}else{
 			$response = array(
 					'code'=> 2,
-					'message' => "user assign not-success",
+					'message' => "job assign not-success",
 					'data' => ""
 					);
 
