@@ -46,8 +46,10 @@ class Job extends CI_Controller{
 
 		$array =  json_decode(file_get_contents('php://input'),true);
 
-		$jobId = $this->input->post("job_id");
-		$technical_officer_id = $this->input->post("technical_officer_id") ;
+		if($array == null) { throw new Exception("request data not setted corretcly", 2);}
+
+		$jobId = $array["job_id"];
+		$technical_officer_id = $array["technical_officer_id"];
 
 		if ($jobId == NULL) { throw new Exception("job_id is required", 1); }
 		if ($technical_officer_id == NULL) { throw new Exception("technical_officer_id is required", 1); }
@@ -81,25 +83,37 @@ class Job extends CI_Controller{
 	function add(){
 
 
-		if ($this->input->post("user_id") == NULL) { throw new Exception("user_id is required", 1); }
-		if ($this->input->post("title") == NULL) { throw new Exception("title is required", 1); }
-		if ($this->input->post("description") == NULL) { throw new Exception("description is required", 1); }
-		if ($this->input->post("branch_id") == NULL) { throw new Exception("branch_id is required", 1); }
-		if ($this->input->post("priority") == NULL) { throw new Exception("priority is required", 1); }
+
+		$array =  json_decode(file_get_contents('php://input'),true);
+		
+		if($array == null) { throw new Exception("request data not setted corretcly", 2);}
+
+		$userId = $array["user_id"];
+		$title = $array["title"];
+		$description = $array["description"];
+		$branchId = $array["branch_id"];
+		$priority = $array["priority"];
+
+
+		if ($userId == NULL) { throw new Exception("user_id is required", 1); }
+		if ($title == NULL) { throw new Exception("title is required", 1); }
+		if ($description == NULL) { throw new Exception("description is required", 1); }
+		if ($branchId == NULL) { throw new Exception("branch_id is required", 1); }
+		if ($pri == NULL) { throw new Exception("priority is required", 1); }
 
 
 		$this->load->helper('date');
 		$timestamp = time();
 
 		$data = array(
-			'branch_manager_id' => $this->input->post("user_id"),
+			'branch_manager_id' => $userId,
 			'maintence_manager_id' => 1,
 			'technical_officer_id' => NULL,
 			'warehouse_manager_id' => NULL,
-			'title' => $this->input->post("title"),
-			'description' => $this->input->post("description"),
-			'branch_id' => $this->input->post("branch_id"),
-			'priority' => $this->input->post("priority"),
+			'title' => $title,
+			'description' => $description,
+			'branch_id' => $branchId,
+			'priority' => $priority,
 			'timestamp' => $timestamp,
 			'state_id' => 1,
 			'job_hours' => NULL
