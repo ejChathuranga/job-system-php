@@ -11,8 +11,11 @@ class Auth extends CI_Controller {
 	public function login()
 	{
 
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
+		$array =  json_decode(file_get_contents('php://input'),true);
+
+
+		$username = $array['username'];
+		$password = $array['password'];
 
 		if ($username == null) {
 			throw new Exception("username cannot be empty", 2);

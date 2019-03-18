@@ -16,7 +16,20 @@ class User extends CI_Controller{
 		// 1 = maintences manager, 2 = branch manager, 3 = technical officer, 4 = store manager
 		if ($rollId == 1) {
 			$jobList = $this->user_model->getHomeMain($userId);
+			sendHomeResponse($jobList);
+		}else if ($rollId == 2) {
+			$jobList = $this->user_model->getHomeBranch($userId);
+			sendHomeResponse($jobList);
+		}else if ($rollId == 3) {
+			$jobList = $this->user_model->getHomeTech($userId);
+			sendHomeResponse($jobList);
+		}else if ($rollId == 4) {
+			$jobList = $this->user_model->getHomeWare($userId);
+			sendHomeResponse($jobList);
+		}
+	}
 
+	function sendHomeResponse($jobList){
 			if ($jobList != null) {
 				$response = array(
 					'code'=> 1,
@@ -34,9 +47,5 @@ class User extends CI_Controller{
 
 				echo json_encode($response);
 			}
-		}
-
-
-
 	}
 }

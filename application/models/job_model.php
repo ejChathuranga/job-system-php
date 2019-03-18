@@ -3,6 +3,18 @@
 // model for auth user request. Inhere will check existing user's and weill genarate response according to that
 class Job_model extends CI_Model{
 
+	function accept($userId, $jobId){
+		$this->db->set('state_id', 3);
+		$this->db->where('id', $jobId);
+		$isAccepted = $this->db->update('job');
+
+		if ($isAccepted) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	function assign($technicalOfficerId, $jobId){
 		$this->db->set('technical_officer_id', $technicalOfficerId);
 		$this->db->set('state_id', 2);
