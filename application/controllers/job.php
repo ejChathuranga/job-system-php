@@ -3,12 +3,26 @@
 
 class Job extends CI_Controller{
 
-	// function oldJob----------------
+	function getjobs(){
+		
+		$array =  json_decode(file_get_contents('php://input'),true);
+
+		if($array == null) { throw new Exception("request data not set corretcly", 2);}
+
+		$userId = $array["user_id"];
+		$rollId = $array["roll_id"];
+		
+		if ($userId == NULL) { throw new Exception("user_id is required", 2); }
+		if ($rollId == NULL) { throw new Exception("roll_id is required", 2); }
+
+		
+
+	}
 
 	function pending(){
 		$array =  json_decode(file_get_contents('php://input'),true);
 		
-		if($array == null) { throw new Exception("request data not setted corretcly", 2);}
+		if($array == null) { throw new Exception("request data not set corretcly", 2);}
 
 		$userId = $array["user_id"];
 

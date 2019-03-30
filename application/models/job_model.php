@@ -11,9 +11,13 @@ class Job_model extends CI_Model{
 	* 1 = maintences manager, 2 = branch manager, 3 = technical officer, 4 = store manager
 	*/
 
+	function getJobs($userId, $jobId){
+		
+	}
+
 	function pending($userId, $jobId){
 
-		$roll_id = $this->getUserRoll();
+		$roll_id = $this->getUserRoll($userId);
 
 		$this->db->where('id', $jobId);
 		$this->db->where('password', $pw);

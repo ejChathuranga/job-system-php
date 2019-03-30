@@ -2,13 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Methods: GET, OPTIONS");
+header('Access-Control-Allow-Headers: *');
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 
 // class for authenticate user
 // 
 
 class Auth extends CI_Controller {
-
 
 	// user auth endpoint 
 	public function login()
@@ -16,17 +16,14 @@ class Auth extends CI_Controller {
 
 		$array =  json_decode(file_get_contents('php://input'),true);
 
-
-		$username = $array['username'];
-		$password = $array['password'];
+		$username = $array["username"];
+		$password = $array["password"];
 
 		if ($username == null) {
 			throw new Exception("username cannot be empty", 2);
-			
 		}
 		if ($password == null) {
 			throw new Exception("password cannot be empty", 2);
-			
 		}
 
 		$this->load->model('auth_model');
