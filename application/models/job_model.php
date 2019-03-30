@@ -3,92 +3,42 @@
 // model for auth user request. Inhere will check existing user's and weill genarate response according to that
 class Job_model extends CI_Model{
 
+	/**
+	* state ids
+	* 1 = pending, 2= assigned, 3=acccept, 4=material req, 5=onProgress, 6=finish, 7=re-open, 8=close
+	*
+	*roll ids
+	* 1 = maintences manager, 2 = branch manager, 3 = technical officer, 4 = store manager
+	*/
 
-	function reopen($jobId){
-		$this->db->set('state_id', 7);
+	function pending($userId, $jobId){
+
+		$roll_id = $this->getUserRoll();
+
 		$this->db->where('id', $jobId);
-		$isAccepted = $this->db->update('job');
-
-		if ($isAccepted) {
-			return true;
-		}else{
-			return false;
-		}
+		$this->db->where('password', $pw);
 	}
 
-	function close($jobId){
-		$this->db->set('state_id', 8);
-		$this->db->where('id', $jobId);
-		$isAccepted = $this->db->update('job');
+	functon getData($rollId, $stateId, $userId){
 
-		if ($isAccepted) {
-			return true;
-		}else{
-			return false;
+		switch ($rollId) {
+			case '1':
+				$this->db->where('maintence_manager_id', $userId);
+				$this->db->where('state_id', $stateId);
+				$jobList = $this->db->get('job');
+				break;
+			
+			default:
+				break;
 		}
+
 	}
 
-	function finish($jobId){
-		$this->db->set('state_id', 6);
-		$this->db->where('id', $jobId);
-		$isAccepted = $this->db->update('job');
-
-		if ($isAccepted) {
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-
-	function onProgress($jobId){
-		$this->db->set('state_id', 5);
-		$this->db->where('id', $jobId);
-		$isAccepted = $this->db->update('job');
-
-		if ($isAccepted) {
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-
-	function materialRequisition($jobId){
-		$this->db->set('warehouse_manager_id', 4);
-		$this->db->set('state_id', 4);
-		$this->db->where('id', $jobId);
-		$isAccepted = $this->db->update('job');
-
-		if ($isAccepted) {
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	function accept($userId, $jobId){
-		$this->db->set('state_id', 3);
-		$this->db->where('id', $jobId);
-		$isAccepted = $this->db->update('job');
-
-		if ($isAccepted) {
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	function assign($technicalOfficerId, $jobId){
-		$this->db->set('technical_officer_id', $technicalOfficerId);
-		$this->db->set('state_id', 2);
-		$this->db->where('id', $jobId);
-		$isUpdated = $this->db->update('job');
-
-		if ($isUpdated) {
-			return true;
-		}else{
-			return false;
+	function getUserRoll($userId){
+		$this->db->where('id', $userId);
+		$query = $this->db->get('employee');
+		if($query->num_rows()>0){
+			return $query->result()[0]->roll_id;
 		}
 	}
 

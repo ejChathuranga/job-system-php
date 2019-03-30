@@ -15,9 +15,9 @@ class State extends CI_Controller{
 
 		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
 
-		$this->load->model('job_model');
+		$this->load->model('state_model');
 
-		$isAssigned = $this->job_model->reopen($jobId);
+		$isAssigned = $this->state_model->reopen($jobId);
 
 		if ($isAssigned) {
 			$response = array(
@@ -52,9 +52,9 @@ class State extends CI_Controller{
 
 		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
 
-		$this->load->model('job_model');
+		$this->load->model('state_model');
 
-		$isAssigned = $this->job_model->close($jobId);
+		$isAssigned = $this->state_model->close($jobId);
 
 		if ($isAssigned) {
 			$response = array(
@@ -88,9 +88,9 @@ class State extends CI_Controller{
 
 		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
 
-		$this->load->model('job_model');
+		$this->load->model('state_model');
 
-		$isAssigned = $this->job_model->finish($jobId);
+		$isAssigned = $this->state_model->finish($jobId);
 
 		if ($isAssigned) {
 			$response = array(
@@ -124,9 +124,9 @@ class State extends CI_Controller{
 
 		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
 
-		$this->load->model('job_model');
+		$this->load->model('state_model');
 
-		$isAssigned = $this->job_model->onProgress($jobId);
+		$isAssigned = $this->state_model->onProgress($jobId);
 
 		if ($isAssigned) {
 			$response = array(
@@ -161,9 +161,9 @@ class State extends CI_Controller{
 
 		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
 
-		$this->load->model('job_model');
+		$this->load->model('state_model');
 
-		$isAssigned = $this->job_model->materialRequisition($jobId);
+		$isAssigned = $this->state_model->materialRequisition($jobId);
 
 		if ($isAssigned) {
 			$response = array(
@@ -200,9 +200,9 @@ class State extends CI_Controller{
 		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
 		if ($userId  == NULL) { throw new Exception("user_id is required", 2); }
 
-		$this->load->model('job_model');
+		$this->load->model('state_model');
 
-		$isAssigned = $this->job_model->accept($userId, $jobId);
+		$isAssigned = $this->state_model->accept($userId, $jobId);
 
 		if ($isAssigned) {
 			$response = array(
@@ -237,9 +237,9 @@ class State extends CI_Controller{
 
 
 		// load the job module in context
-		$this->load->model('job_model');
+		$this->load->model('state_model');
 
-		$isAssigned = $this->job_model->assign($technical_officer_id, $jobId);
+		$isAssigned = $this->state_model->assign($technical_officer_id, $jobId);
 
 		if ($isAssigned) {
 			$response = array(

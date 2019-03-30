@@ -3,6 +3,23 @@
 
 class Job extends CI_Controller{
 
+	// function oldJob----------------
+
+	function pending(){
+		$array =  json_decode(file_get_contents('php://input'),true);
+		
+		if($array == null) { throw new Exception("request data not setted corretcly", 2);}
+
+		$userId = $array["user_id"];
+
+		if ($userId == NULL) { throw new Exception("user_id is required", 1); }
+
+		// load the job module in context
+		$this->load->model('job_model');
+
+
+	}
+
 	function add(){
 		$array =  json_decode(file_get_contents('php://input'),true);
 		

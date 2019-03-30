@@ -16,16 +16,16 @@ class User extends CI_Controller{
 		// 1 = maintences manager, 2 = branch manager, 3 = technical officer, 4 = store manager
 		if ($rollId == 1) {
 			$jobList = $this->user_model->getHomeMain($userId);
-			sendHomeResponse($jobList);
+			$this->sendHomeResponse($jobList);
 		}else if ($rollId == 2) {
 			$jobList = $this->user_model->getHomeBranch($userId);
-			sendHomeResponse($jobList);
+			$this->sendHomeResponse($jobList);
 		}else if ($rollId == 3) {
 			$jobList = $this->user_model->getHomeTech($userId);
-			sendHomeResponse($jobList);
+			$this->sendHomeResponse($jobList);
 		}else if ($rollId == 4) {
 			$jobList = $this->user_model->getHomeWare($userId);
-			sendHomeResponse($jobList);
+			$this->sendHomeResponse($jobList);
 		}
 	}
 
