@@ -11,8 +11,61 @@ class Job_model extends CI_Model{
 	* 1 = maintences manager, 2 = branch manager, 3 = technical officer, 4 = store manager
 	*/
 
-	function getJobs($userId, $jobId){
+	function allJobs($userId){
+
+		$roll_id = $this->getUserRoll($userId);
+
+		return $this->getJobs($roll_id, $userId);
 		
+	}
+
+	function getJobs($roll_id, $userId){
+		
+		switch ($roll_id) {
+			case '1':
+				$this->db->where('maintence_manager_id', $userId);
+				$query = $this->db->get('job');
+				if($query->num_rows()>0){
+					return $query->result();
+				}else{
+					return "No data to show";
+				}
+				break;
+			
+			case '2':
+				$this->db->where('branch_manager_id', $userId);
+				$query = $this->db->get('job');
+				if($query->num_rows()>0){
+					return $query->result();
+				}else{
+					return "No data to show";
+				}
+				break;
+			
+			case '3':
+				$this->db->where('technical_officer_id', $userId);
+				$query = $this->db->get('job');
+				if($query->num_rows()>0){
+					return $query->result();
+				}else{
+					return "No data to show";
+				}
+				break;
+			
+			case '4':
+				$this->db->where('warehouse_manager_id', $userId);
+				$query = $this->db->get('job');
+				if($query->num_rows()>0){
+					return $query->result();
+				}else{
+					return "No data to show";
+				}
+				break;
+			
+			default:
+				break;
+		}
+
 	}
 
 	function pending($userId, $jobId){
@@ -23,7 +76,7 @@ class Job_model extends CI_Model{
 		$this->db->where('password', $pw);
 	}
 
-	functon getData($rollId, $stateId, $userId){
+	function getPendings($rollId, $stateId, $userId){
 
 		switch ($rollId) {
 			case '1':
@@ -47,7 +100,7 @@ class Job_model extends CI_Model{
 	}
 
 	// insert job details into table
-	function insert($data){
+	function addNewJob($data){
 		$query = $this->db->insert('job', $data);
 		if ($query) {
 			return true;

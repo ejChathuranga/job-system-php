@@ -13,12 +13,15 @@ class Job extends CI_Controller{
 		if($array == null) { throw new Exception("request data not set corretcly", 2);}
 
 		$userId = $array["user_id"];
-		$rollId = $array["roll_id"];
 		
 		if ($userId == NULL) { throw new Exception("user_id is required", 2); }
-		if ($rollId == NULL) { throw new Exception("roll_id is required", 2); }
-
 		
+		// load the job module in context
+		$this->load->model('job_model');
+
+		$data = $this->job_model->allJobs($userId);
+
+		$this->sendResponse($data, "Data fetch success", 1);
 
 	}
 
@@ -77,7 +80,7 @@ class Job extends CI_Controller{
 		$this->load->model('job_model');
 
 		// call insert function in the module
-		if ($this->job_model->insert($data)) {
+		if ($this->job_model->addNewJob($data)) {
 			$response = array(
 					'code'=> 1,
 					'message' => "data insert success",
@@ -94,5 +97,15 @@ class Job extends CI_Controller{
 
 			echo json_encode($response);
 		}
+	}
+
+	function sendResponse($data, $message, $code){
+		$response = array(
+			'code'=> $code,
+			'message' => $message,
+			'data' => $data
+			);
+
+		echo json_encode($response);
 	}
 }
