@@ -1,111 +1,195 @@
-<?php 
+<?php
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 
-class Job extends CI_Controller{
+class Job extends CI_Controller
+{
+    // 1 = pending, 2= assigned, 3=acccept, 4=material req, 5=onProgress, 6=finish, 7=re-open, 8=close
 
-	function getjobs(){
-		
-		$array =  json_decode(file_get_contents('php://input'),true);
+    public function close()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
+        $userId = $array["user_id"];
+        if ($userId == null) {$this->sendResponse("user_id is required", "check user id", 2);exit();}
+        // load the job module in context
+        $this->load->model('job_model');
+        $data = $this->job_model->getStateData($userId, 8);
+        $this->sendResponse($data, "Data fetch success", 1);
+    }
 
-		if($array == null) { throw new Exception("request data not set corretcly", 2);}
+    public function reopen()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
+        $userId = $array["user_id"];
+        if ($userId == null) {$this->sendResponse("user_id is required", "check user id", 2);exit();}
+        // load the job module in context
+        $this->load->model('job_model');
+        $data = $this->job_model->getStateData($userId, 7);
+        $this->sendResponse($data, "Data fetch success", 1);
+    }
 
-		$userId = $array["user_id"];
-		
-		if ($userId == NULL) { throw new Exception("user_id is required", 2); }
-		
-		// load the job module in context
-		$this->load->model('job_model');
+    public function finish()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
+        $userId = $array["user_id"];
+        if ($userId == null) {$this->sendResponse("user_id is required", "check user id", 2);exit();}
+        // load the job module in context
+        $this->load->model('job_model');
+        $data = $this->job_model->getStateData($userId, 6);
+        $this->sendResponse($data, "Data fetch success", 1);
+    }
 
-		$data = $this->job_model->allJobs($userId);
+    public function onprogress()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
+        $userId = $array["user_id"];
+        if ($userId == null) {$this->sendResponse("user_id is required", "check user id", 2);exit();}
+        // load the job module in context
+        $this->load->model('job_model');
+        $data = $this->job_model->getStateData($userId, 5);
+        $this->sendResponse($data, "Data fetch success", 1);
+    }
 
-		$this->sendResponse($data, "Data fetch success", 1);
+    public function matreq()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
+        $userId = $array["user_id"];
+        if ($userId == null) {$this->sendResponse("user_id is required", "check user id", 2);exit();}
+        // load the job module in context
+        $this->load->model('job_model');
+        $data = $this->job_model->getStateData($userId, 4);
+        $this->sendResponse($data, "Data fetch success", 1);
+    }
 
-	}
+    public function acccept()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
+        $userId = $array["user_id"];
+        if ($userId == null) {$this->sendResponse("user_id is required", "check user id", 2);exit();}
+        // load the job module in context
+        $this->load->model('job_model');
+        $data = $this->job_model->getStateData($userId, 3);
+        $this->sendResponse($data, "Data fetch success", 1);
+    }
 
-	function pending(){
-		$array =  json_decode(file_get_contents('php://input'),true);
-		
-		if($array == null) { throw new Exception("request data not set corretcly", 2);}
+    public function assigned()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
+        $userId = $array["user_id"];
+        if ($userId == null) {$this->sendResponse("user_id is required", "check user id", 2);exit();}
+        // load the job module in context
+        $this->load->model('job_model');
+        $data = $this->job_model->getStateData($userId, 2);
+        $this->sendResponse($data, "Data fetch success", 1);
+    }
 
-		$userId = $array["user_id"];
+    public function pending()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
+        $userId = $array["user_id"];
+        if ($userId == null) {$this->sendResponse("user_id is required", "check user id", 2);exit();}
+        // load the job module in context
+        $this->load->model('job_model');
+        $data = $this->job_model->getStateData($userId, 1);
+        $this->sendResponse($data, "Data fetch success", 1);
+    }
 
-		if ($userId == NULL) { throw new Exception("user_id is required", 1); }
+    public function getjobs()
+    {
 
-		// load the job module in context
-		$this->load->model('job_model');
+        $array = json_decode(file_get_contents('php://input'), true);
 
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
 
-	}
+        $userId = $array["user_id"];
 
-	function add(){
-		$array =  json_decode(file_get_contents('php://input'),true);
-		
-		if($array == null) { throw new Exception("request data not setted corretcly", 2);}
+        if ($userId == null) {$this->sendResponse("user_id is required", "check user id", 2);exit();}
 
-		$userId = $array["user_id"];
-		$title = $array["title"];
-		$description = $array["description"];
-		$branchId = $array["branch_id"];
-		$priority = $array["priority"];
+        // load the job module in context
+        $this->load->model('job_model');
 
+        $data = $this->job_model->allJobs($userId);
 
-		if ($userId == NULL) { throw new Exception("user_id is required", 1); }
-		if ($title == NULL) { throw new Exception("title is required", 1); }
-		if ($description == NULL) { throw new Exception("description is required", 1); }
-		if ($branchId == NULL) { throw new Exception("branch_id is required", 1); }
-		if ($pri == NULL) { throw new Exception("priority is required", 1); }
+        $this->sendResponse($data, "Data fetch success", 1);
 
+    }
 
-		$this->load->helper('date');
-		$timestamp = time();
+    public function add()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
 
-		$data = array(
-			'branch_manager_id' => $userId,
-			'maintence_manager_id' => 1,
-			'technical_officer_id' => NULL,
-			'warehouse_manager_id' => NULL,
-			'title' => $title,
-			'description' => $description,
-			'branch_id' => $branchId,
-			'priority' => $priority,
-			'timestamp' => $timestamp,
-			'state_id' => 1,
-			'job_hours' => NULL
-		);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
 
-		// load the job module in context
-		$this->load->model('job_model');
+        $userId = $array["user_id"];
+        $title = $array["title"];
+        $description = $array["description"];
+        $branchId = $array["branch_id"];
+        $priority = $array["priority"];
 
-		// call insert function in the module
-		if ($this->job_model->addNewJob($data)) {
-			$response = array(
-					'code'=> 1,
-					'message' => "data insert success",
-					'data' => ""
-					);
+        if ($userId == null) {$this->sendResponse("", "user_id is required", 2);exit();}
+        if ($title == null) {$this->sendResponse("", "title is required", 2);exit();}
+        if ($description == null) {$this->sendResponse("", "description is required", 2);exit();}
+        if ($branchId == null) {$this->sendResponse("", "branch_id is required", 2);exit();}
+        if ($pri == null) {$this->sendResponse("", "priority is required", 2);exit();}
 
-			echo json_encode($response);
-		}else{
-			$response = array(
-					'code'=> 2,
-					'message' => "data insert not-success",
-					'data' => ""
-					);
+        $this->load->helper('date');
+        $timestamp = time();
 
-			echo json_encode($response);
-		}
-	}
+        $data = array(
+            'branch_manager_id' => $userId,
+            'maintence_manager_id' => 1,
+            'technical_officer_id' => null,
+            'warehouse_manager_id' => null,
+            'title' => $title,
+            'description' => $description,
+            'branch_id' => $branchId,
+            'priority' => $priority,
+            'timestamp' => $timestamp,
+            'state_id' => 1,
+            'job_hours' => null,
+        );
 
-	function sendResponse($data, $message, $code){
-		$response = array(
-			'code'=> $code,
-			'message' => $message,
-			'data' => $data
-			);
+        // load the job module in context
+        $this->load->model('job_model');
 
-		echo json_encode($response);
-	}
+        // call insert function in the module
+        if ($this->job_model->addNewJob($data)) {
+            $response = array(
+                'code' => 1,
+                'message' => "data insert success",
+                'data' => "",
+            );
+
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'code' => 2,
+                'message' => "data insert not-success",
+                'data' => "",
+            );
+
+            echo json_encode($response);
+        }
+    }
+
+    public function sendResponse($data, $message, $code)
+    {
+        $response = array(
+            'code' => $code,
+            'message' => $message,
+            'data' => $data,
+        );
+
+        echo json_encode($response);
+    }
 }

@@ -1,54 +1,67 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-class User extends CI_Controller{
+class User extends CI_Controller
+{
 
-	function home(){
-		$userId = $this->input->get('userid');
-		$rollId = $this->input->get('rollid');
-		$branchId = $this->input->get('branchid');
+    public function home()
+    {
 
-		if ($userId == null) { throw new Exception("userId cannot be empty", 2); }
-		if ($rollId == null) { throw new Exception("rollId cannot be empty", 2); }
+        $response = array(
+            'code' => 2,
+            'message' => "DEPRECATED",
+            'data' => "",
+        );
 
-		$this->load->model('user_model');
+        echo json_encode($response);
+        exit();
 
-		// 1 = maintences manager, 2 = branch manager, 3 = technical officer, 4 = store manager
-		if ($rollId == 1) {
-			$jobList = $this->user_model->getHomeMain($userId);
-			$this->sendHomeResponse($jobList);
-		}else if ($rollId == 2) {
-			$jobList = $this->user_model->getHomeBranch($userId);
-			$this->sendHomeResponse($jobList);
-		}else if ($rollId == 3) {
-			$jobList = $this->user_model->getHomeTech($userId);
-			$this->sendHomeResponse($jobList);
-		}else if ($rollId == 4) {
-			$jobList = $this->user_model->getHomeWare($userId);
-			$this->sendHomeResponse($jobList);
-		}
-	}
+        $userId = $this->input->get('userid');
+        $rollId = $this->input->get('rollid');
+        $branchId = $this->input->get('branchid');
 
-	function sendHomeResponse($jobList){
-			if ($jobList != null) {
-				$response = array(
-					'code'=> 1,
-					'message' => "data fetch success",
-					'data' => $jobList
-					);
+        if ($userId == null) {throw new Exception("userId cannot be empty", 2);exit();}
+        if ($rollId == null) {throw new Exception("rollId cannot be empty", 2);exit();}
 
-				echo json_encode($response);
-			}else{
-				$response = array(
-					'code'=> 1,
-					'message' => "data fetch success",
-					'data' => $jobList
-					);
+        $this->load->model('user_model');
 
-				echo json_encode($response);
-			}
-	}
+        // 1 = maintences manager, 2 = branch manager, 3 = technical officer, 4 = store manager
+        if ($rollId == 1) {
+            $jobList = $this->user_model->getHomeMain($userId);
+            $this->sendHomeResponse($jobList);
+        } else if ($rollId == 2) {
+            $jobList = $this->user_model->getHomeBranch($userId);
+            $this->sendHomeResponse($jobList);
+        } else if ($rollId == 3) {
+            $jobList = $this->user_model->getHomeTech($userId);
+            $this->sendHomeResponse($jobList);
+        } else if ($rollId == 4) {
+            $jobList = $this->user_model->getHomeWare($userId);
+            $this->sendHomeResponse($jobList);
+        }
+    }
+
+    public function sendHomeResponse($jobList)
+    {
+        if ($jobList != null) {
+            $response = array(
+                'code' => 1,
+                'message' => "data fetch success",
+                'data' => $jobList,
+            );
+
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'code' => 1,
+                'message' => "data fetch success",
+                'data' => $jobList,
+            );
+
+            echo json_encode($response);
+        }
+    }
 }

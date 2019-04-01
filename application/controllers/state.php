@@ -1,268 +1,276 @@
-<?php 
+<?php
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 
-class State extends CI_Controller{
+class State extends CI_Controller
+{
 
-	function reopen(){
+    public function reopen()
+    {
 
-		// $userInput = $this->input->raw_input_stream;
-		$array =  json_decode(file_get_contents('php://input'),true);
+        // $userInput = $this->input->raw_input_stream;
+        $array = json_decode(file_get_contents('php://input'), true);
 
-		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+        if ($array == null) {$this->sendResponse("", "request data not setted corretcly", 2);exit();}
 
-		$jobId =  $array['job_id'];
+        $jobId = $array['job_id'];
 
+        if ($jobId == null) {$this->sendResponse("", "job_id is required", 2);exit();}
 
-		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+        $this->load->model('state_model');
 
-		$this->load->model('state_model');
+        $isAssigned = $this->state_model->reopen($jobId);
 
-		$isAssigned = $this->state_model->reopen($jobId);
+        if ($isAssigned) {
+            $response = array(
+                'code' => 1,
+                'message' => "job  re-open success",
+                'data' => "",
+            );
 
-		if ($isAssigned) {
-			$response = array(
-					'code'=> 1,
-					'message' => "job  re-open success",
-					'data' => ""
-					);
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'code' => 2,
+                'message' => "job re-open not-success",
+                'data' => "",
+            );
 
-			echo json_encode($response);
-		}else{
-			$response = array(
-					'code'=> 2,
-					'message' => "job re-open not-success",
-					'data' => ""
-					);
+            echo json_encode($response);
+        }
 
-			echo json_encode($response);
-		}
+    }
 
-	}
+    public function close()
+    {
 
+        // $userInput = $this->input->raw_input_stream;
+        $array = json_decode(file_get_contents('php://input'), true);
 
-	function close(){
+        if ($array == null) {$this->sendResponse("", "request data not setted corretcly", 2);exit();}
 
-		// $userInput = $this->input->raw_input_stream;
-		$array =  json_decode(file_get_contents('php://input'),true);
+        $jobId = $array['job_id'];
 
-		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+        if ($jobId == null) {$this->sendResponse("", "job_id is required", 2);exit();}
 
-		$jobId =  $array['job_id'];
+        $this->load->model('state_model');
 
+        $isAssigned = $this->state_model->close($jobId);
 
-		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+        if ($isAssigned) {
+            $response = array(
+                'code' => 1,
+                'message' => "job  close success",
+                'data' => "",
+            );
 
-		$this->load->model('state_model');
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'code' => 2,
+                'message' => "job close not-success",
+                'data' => "",
+            );
 
-		$isAssigned = $this->state_model->close($jobId);
+            echo json_encode($response);
+        }
 
-		if ($isAssigned) {
-			$response = array(
-					'code'=> 1,
-					'message' => "job  close success",
-					'data' => ""
-					);
+    }
 
-			echo json_encode($response);
-		}else{
-			$response = array(
-					'code'=> 2,
-					'message' => "job close not-success",
-					'data' => ""
-					);
+    public function finish()
+    {
 
-			echo json_encode($response);
-		}
+        // $userInput = $this->input->raw_input_stream;
+        $array = json_decode(file_get_contents('php://input'), true);
 
-	}
+        if ($array == null) {$this->sendResponse("", "request data not setted corretcly", 2);exit();}
 
-	function finish(){
+        $jobId = $array['job_id'];
 
-		// $userInput = $this->input->raw_input_stream;
-		$array =  json_decode(file_get_contents('php://input'),true);
+        if ($jobId == null) {$this->sendResponse("", "job_id is required", 2);exit();}
 
-		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+        $this->load->model('state_model');
 
-		$jobId =  $array['job_id'];
+        $isAssigned = $this->state_model->finish($jobId);
 
+        if ($isAssigned) {
+            $response = array(
+                'code' => 1,
+                'message' => "job  finish success",
+                'data' => "",
+            );
 
-		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'code' => 2,
+                'message' => "job finish not-success",
+                'data' => "",
+            );
 
-		$this->load->model('state_model');
+            echo json_encode($response);
+        }
 
-		$isAssigned = $this->state_model->finish($jobId);
+    }
 
-		if ($isAssigned) {
-			$response = array(
-					'code'=> 1,
-					'message' => "job  finish success",
-					'data' => ""
-					);
+    public function matok()
+    {
 
-			echo json_encode($response);
-		}else{
-			$response = array(
-					'code'=> 2,
-					'message' => "job finish not-success",
-					'data' => ""
-					);
+        // $userInput = $this->input->raw_input_stream;
+        $array = json_decode(file_get_contents('php://input'), true);
 
-			echo json_encode($response);
-		}
+        if ($array == null) {$this->sendResponse("", "request data not setted corretcly", 2);exit();}
 
-	}
+        $jobId = $array['job_id'];
 
-	function matok(){
+        if ($jobId == null) {$this->sendResponse("", "job_id is required", 2);exit();}
 
-		// $userInput = $this->input->raw_input_stream;
-		$array =  json_decode(file_get_contents('php://input'),true);
+        $this->load->model('state_model');
 
-		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+        $isAssigned = $this->state_model->onProgress($jobId);
 
-		$jobId =  $array['job_id'];
+        if ($isAssigned) {
+            $response = array(
+                'code' => 1,
+                'message' => "job material issued success",
+                'data' => "",
+            );
 
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'code' => 2,
+                'message' => "job material issued not-success",
+                'data' => "",
+            );
 
-		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+            echo json_encode($response);
+        }
 
-		$this->load->model('state_model');
+    }
 
-		$isAssigned = $this->state_model->onProgress($jobId);
+    public function matreq()
+    {
 
-		if ($isAssigned) {
-			$response = array(
-					'code'=> 1,
-					'message' => "job material issued success",
-					'data' => ""
-					);
+        // $userInput = $this->input->raw_input_stream;
+        $array = json_decode(file_get_contents('php://input'), true);
 
-			echo json_encode($response);
-		}else{
-			$response = array(
-					'code'=> 2,
-					'message' => "job material issued not-success",
-					'data' => ""
-					);
+        if ($array == null) {$this->sendResponse("", "request data not setted corretcly", 2);exit();}
 
-			echo json_encode($response);
-		}
+        $jobId = $array['job_id'];
 
-	}
+        if ($jobId == null) {$this->sendResponse("", "job_id is required", 2);exit();}
 
+        $this->load->model('state_model');
 
-	function matreq(){
+        $isAssigned = $this->state_model->materialRequisition($jobId);
 
-		// $userInput = $this->input->raw_input_stream;
-		$array =  json_decode(file_get_contents('php://input'),true);
+        if ($isAssigned) {
+            $response = array(
+                'code' => 1,
+                'message' => "job material requisition success",
+                'data' => "",
+            );
 
-		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'code' => 2,
+                'message' => "job material requisition not-success",
+                'data' => "",
+            );
 
-		$jobId =  $array['job_id'];
+            echo json_encode($response);
+        }
 
+    }
 
-		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
+    public function accept()
+    {
 
-		$this->load->model('state_model');
+        // $userInput = $this->input->raw_input_stream;
+        $array = json_decode(file_get_contents('php://input'), true);
 
-		$isAssigned = $this->state_model->materialRequisition($jobId);
+        if ($array == null) {$this->sendResponse("", "request data not setted corretcly", 2);exit();}
 
-		if ($isAssigned) {
-			$response = array(
-					'code'=> 1,
-					'message' => "job material requisition success",
-					'data' => ""
-					);
+        $userId = $array['user_id'];
+        $jobId = $array['job_id'];
 
-			echo json_encode($response);
-		}else{
-			$response = array(
-					'code'=> 2,
-					'message' => "job material requisition not-success",
-					'data' => ""
-					);
+        if ($jobId == null) {$this->sendResponse("", "job_id is required", 2);exit();}
+        if ($userId == null) {$this->sendResponse("", "user_id is required", 2);exit();}
 
-			echo json_encode($response);
-		}
+        $this->load->model('state_model');
 
-	}
+        $isAssigned = $this->state_model->accept($userId, $jobId);
 
+        if ($isAssigned) {
+            $response = array(
+                'code' => 1,
+                'message' => "job accept success",
+                'data' => "",
+            );
 
-	function accept(){
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'code' => 2,
+                'message' => "job accept not-success",
+                'data' => "",
+            );
 
-		// $userInput = $this->input->raw_input_stream;
-		$array =  json_decode(file_get_contents('php://input'),true);
+            echo json_encode($response);
+        }
 
-		if($array == null ){ throw new Exception("request data not setted corretcly", 2); }
+    }
 
-		$userId =  $array['user_id'];
-		$jobId =  $array['job_id'];
+    public function assign()
+    {
+        $array = json_decode(file_get_contents('php://input'), true);
 
+        if ($array == null) {$this->sendResponse("", "request data not setted corretcly", 2);exit();}
 
-		if ($jobId == NULL) { throw new Exception("job_id is required", 2); }
-		if ($userId  == NULL) { throw new Exception("user_id is required", 2); }
+        $jobId = $array["job_id"];
+        $technical_officer_id = $array["technical_officer_id"];
 
-		$this->load->model('state_model');
+        if ($jobId == null) {$this->sendResponse("", "job_id is required", 2);exit();}
+        if ($technical_officer_id == null) {$this->sendResponse("", "technical_officer_id is required", 2);exit();}
 
-		$isAssigned = $this->state_model->accept($userId, $jobId);
+        // load the job module in context
+        $this->load->model('state_model');
 
-		if ($isAssigned) {
-			$response = array(
-					'code'=> 1,
-					'message' => "job accept success",
-					'data' => ""
-					);
+        $isAssigned = $this->state_model->assign($technical_officer_id, $jobId);
 
-			echo json_encode($response);
-		}else{
-			$response = array(
-					'code'=> 2,
-					'message' => "job accept not-success",
-					'data' => ""
-					);
+        if ($isAssigned) {
+            $response = array(
+                'code' => 1,
+                'message' => "job assign success",
+                'data' => "",
+            );
 
-			echo json_encode($response);
-		}
+            echo json_encode($response);
+        } else {
+            $response = array(
+                'code' => 2,
+                'message' => "job assign not-success",
+                'data' => "",
+            );
 
-	}
+            echo json_encode($response);
+        }
 
-	function assign(){
-		$array =  json_decode(file_get_contents('php://input'),true);
+    }
 
-		if($array == null) { throw new Exception("request data not setted corretcly", 2);}
+    public function sendResponse($data, $code, $message)
+    {
+        $response = array(
+            'data' => $data,
+            'code' => $code,
+            'message' => $message,
+        );
 
-		$jobId = $array["job_id"];
-		$technical_officer_id = $array["technical_officer_id"];
+        echo json_encode($response);
+    }
 
-		if ($jobId == NULL) { throw new Exception("job_id is required", 1); }
-		if ($technical_officer_id == NULL) { throw new Exception("technical_officer_id is required", 1); }
-
-
-		// load the job module in context
-		$this->load->model('state_model');
-
-		$isAssigned = $this->state_model->assign($technical_officer_id, $jobId);
-
-		if ($isAssigned) {
-			$response = array(
-					'code'=> 1,
-					'message' => "job assign success",
-					'data' => ""
-					);
-
-			echo json_encode($response);
-		}else{
-			$response = array(
-					'code'=> 2,
-					'message' => "job assign not-success",
-					'data' => ""
-					);
-
-			echo json_encode($response);
-		}
-
-	}
-
-	
 }
