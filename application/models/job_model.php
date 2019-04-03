@@ -49,34 +49,80 @@ class Job_model extends CI_Model
                     $this->db->where('maintence_manager_id', $userId);
                     $this->db->where('state_id', $stateId);
                     $jobList = $this->db->get('job');
-                    return $jobList->result();
+                    if ($jobList->num_rows() > 0) {
+                        return $this->jobResponse($jobList->result());
+                    } else {
+                        return "no data to fetch";
+                    }
                     break;
                 }
             case '2':{
                     $this->db->where('branch_manager_id', $userId);
                     $this->db->where('state_id', $stateId);
                     $jobList = $this->db->get('job');
-                    return $jobList->result();
+                    if ($jobList->num_rows() > 0) {
+                        return $this->jobResponse($jobList->result());
+                    } else {
+                        return "no data to fetch";
+                    }
                     break;
                 }
             case '3':{
                     $this->db->where('technical_officer_id', $userId);
                     $this->db->where('state_id', $stateId);
                     $jobList = $this->db->get('job');
-                    return $jobList->result();
+                    if ($jobList->num_rows() > 0) {
+                        return $this->jobResponse($jobList->result());
+                    } else {
+                        return "no data to fetch";
+                    }
                     break;
                 }
             case '4':{
                     $this->db->where('warehouse_manager_id', $userId);
                     $this->db->where('state_id', $stateId);
                     $jobList = $this->db->get('job');
-                    return $jobList->result();
+                    if ($jobList->num_rows() > 0) {
+                        return $this->jobResponse($jobList->result());
+                    } else {
+                        return "no data to fetch";
+                    }
                     break;
                 }
 
             default:
                 break;
         }
+
+    }
+
+    public function jobResponse($arrayList)
+    {
+        $response = array();
+        if ($arrayList != null) {
+            foreach ($arrayList as $job) {
+                $data = array();
+                $data['id'] = $job->id;
+                $data['title'] = $job->title;
+                $data['description'] = $job->description;
+                $data['items'] = json_decode($job->items);
+                $data['branch_id'] = $job->branch_id;
+                $data['priority'] = $job->priority;
+                $data['timestamp'] = $job->timestamp;
+                $data['state_id'] = $job->state_id;
+                if ($job->state_id != null) {
+
+                    $this->db->select('state');
+                    $this->db->where('id', $job->state_id);
+                    $data['state'] = $this->db->get('state')->result()[0]->state;
+                }
+                $data['job_hours'] = $job->job_hours;
+
+                array_push($response, $data);
+            }
+        }
+
+        return $response;
 
     }
 
@@ -101,7 +147,7 @@ class Job_model extends CI_Model
                     $this->db->where('maintence_manager_id', $userId);
                     $query = $this->db->get('job');
                     if ($query->num_rows() > 0) {
-                        return $query->result();
+                        return $this->jobResponse($query->result());
                     } else {
                         return "No data to show";
                     }
@@ -112,7 +158,7 @@ class Job_model extends CI_Model
                     $this->db->where('branch_manager_id', $userId);
                     $query = $this->db->get('job');
                     if ($query->num_rows() > 0) {
-                        return $query->result();
+                        return $this->jobResponse($query->result());
                     } else {
                         return "No data to show";
                     }
@@ -123,7 +169,7 @@ class Job_model extends CI_Model
                     $this->db->where('technical_officer_id', $userId);
                     $query = $this->db->get('job');
                     if ($query->num_rows() > 0) {
-                        return $query->result();
+                        return $this->jobResponse($query->result());
                     } else {
                         return "No data to show";
                     }
@@ -134,7 +180,7 @@ class Job_model extends CI_Model
                     $this->db->where('warehouse_manager_id', $userId);
                     $query = $this->db->get('job');
                     if ($query->num_rows() > 0) {
-                        return $query->result();
+                        return $this->jobResponse($query->result());
                     } else {
                         return "No data to show";
                     }

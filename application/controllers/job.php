@@ -146,12 +146,14 @@ class Job extends CI_Controller
         $description = $array["description"];
         $branchId = $array["branch_id"];
         $priority = $array["priority"];
+        $items = $array["items"];
 
         if ($userId == null) {$this->sendResponse("", "user_id is required", 2);exit();}
         if ($title == null) {$this->sendResponse("", "title is required", 2);exit();}
         if ($description == null) {$this->sendResponse("", "description is required", 2);exit();}
         if ($branchId == null) {$this->sendResponse("", "branch_id is required", 2);exit();}
-        if ($pri == null) {$this->sendResponse("", "priority is required", 2);exit();}
+        if ($priority == null) {$this->sendResponse("", "priority is required", 2);exit();}
+        if ($items == null) {$this->sendResponse("", "items are required", 2);exit();}
 
         $this->load->helper('date');
         $timestamp = time();
@@ -163,6 +165,7 @@ class Job extends CI_Controller
             'warehouse_manager_id' => null,
             'title' => $title,
             'description' => $description,
+            'items' => json_encode($items),
             'branch_id' => $branchId,
             'priority' => $priority,
             'timestamp' => $timestamp,
