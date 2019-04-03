@@ -8,6 +8,17 @@ class Job extends CI_Controller
 {
     // 1 = pending, 2= assigned, 3=acccept, 4=material req, 5=onProgress, 6=finish, 7=re-open, 8=close
 
+    public function itemsearch(){
+        $array = json_decode(file_get_contents('php://input'), true);
+        if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
+        $word = $array["user_id"];
+        if ($word == null) {$this->sendResponse("searching word is required", "check searching key is entered", 2);exit();}
+        // load the job module in context
+        $this->load->model('job_model');
+        $data = $this->job_model->getStateData($userId, 8);
+        $this->sendResponse($data, "Data fetch success", 1);
+    }
+
     public function close()
     {
         $array = json_decode(file_get_contents('php://input'), true);

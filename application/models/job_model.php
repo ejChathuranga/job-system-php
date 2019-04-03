@@ -29,24 +29,28 @@ class Job_model extends CI_Model
                     $this->db->where('maintence_manager_id', $userId);
                     $this->db->where('state_id', $stateId);
                     $jobList = $this->db->get('job');
+                    return $jobList->result();
                     break;
                 }
             case '2':{
                     $this->db->where('branch_manager_id', $userId);
                     $this->db->where('state_id', $stateId);
                     $jobList = $this->db->get('job');
+                    return $jobList->result();
                     break;
                 }
             case '3':{
                     $this->db->where('technical_officer_id', $userId);
                     $this->db->where('state_id', $stateId);
                     $jobList = $this->db->get('job');
+                    return $jobList->result();
                     break;
                 }
             case '4':{
                     $this->db->where('warehouse_manager_id', $userId);
                     $this->db->where('state_id', $stateId);
                     $jobList = $this->db->get('job');
+                    return $jobList->result();
                     break;
                 }
 
