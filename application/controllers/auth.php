@@ -21,12 +21,12 @@ class Auth extends CI_Controller
         $password = $array["password"];
 
         if ($username == null) {
-            $this->response("username cannot be empty", 2, "Auth Fail");
-            exit();
+			$this->response("username cannot be empty", 2, "Auth Fail");
+			exit();
         }
         if ($password == null) {
-            $this->response("password cannot be empty", 2, "Auth Fail");
-            exit();
+			$this->response("password cannot be empty", 2, "Auth Fail");
+			exit();
         }
 
         $this->load->model('auth_model');
@@ -38,7 +38,7 @@ class Auth extends CI_Controller
         } else {
             $this->response($data, 1, "Auth success!");
         }
-    }
+	}
 
     public function response($data, $code, $message)
     {
