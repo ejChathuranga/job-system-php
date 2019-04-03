@@ -11,6 +11,26 @@ class Job_model extends CI_Model
      *roll ids
      * 1 = maintences manager, 2 = branch manager, 3 = technical officer, 4 = store manager
      */
+    public function getQuickSearch($word)
+    {
+        $this->db->like('name', $word);
+        $res = $this->db->get('item');
+
+        if ($res->num_rows() > 0) {
+            $response = array();
+
+            foreach ($res->result() as $array) {
+                $data = array();
+                $data['id'] = $array->id;
+                $data['name'] = $array->name;
+                array_push($response, $data);
+            }
+            return $response;
+
+        } else {
+            return "";
+        }
+    }
 
     public function getStateData($userId, $state)
     {

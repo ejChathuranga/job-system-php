@@ -11,11 +11,11 @@ class Job extends CI_Controller
     public function itemsearch(){
         $array = json_decode(file_get_contents('php://input'), true);
         if ($array == null) {$this->sendResponse("check request", "requeted data not correct", 2);exit();}
-        $word = $array["user_id"];
+        $word = $array["word"];
         if ($word == null) {$this->sendResponse("searching word is required", "check searching key is entered", 2);exit();}
         // load the job module in context
         $this->load->model('job_model');
-        $data = $this->job_model->getStateData($userId, 8);
+        $data = $this->job_model->getQuickSearch($word);
         $this->sendResponse($data, "Data fetch success", 1);
     }
 
